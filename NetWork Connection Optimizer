@@ -1,0 +1,90 @@
+
+    import java.util.*;
+
+class Network {
+    String name;
+    double speed;      // Mbps
+    double latency;    // ms
+    double stability;  // percentage
+
+    Network(String name, double speed, double latency, double stability) {
+        this.name = name;
+        this.speed = speed;
+        this.latency = latency;
+        this.stability = stability;
+    }
+
+    double calculateScore() {
+        return (speed * 0.5)
+             + ((100 - latency) * 0.2)
+             + (stability * 0.3);
+    }
+}
+
+public class NetworkConnectionOptimizer {
+                     public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("======================================");
+        System.out.println("     NETWORK CONNECTION OPTIMIZER");
+        System.out.println("======================================");
+
+        System.out.print("Enter number of networks: ");
+        int n = sc.nextInt();
+
+        Network[] networks = new Network[n];
+
+        for (int i = 0; i < n; i++) {
+
+            System.out.println("\nNetwork " + (i + 1));
+
+            System.out.print("Enter network name: ");
+            String name = sc.next();
+
+            System.out.print("Enter speed (Mbps): ");
+            double speed = sc.nextDouble();
+
+            System.out.print("Enter latency (ms): ");
+            double latency = sc.nextDouble();
+
+            System.out.print("Enter stability (%): ");
+            double stability = sc.nextDouble();
+
+            networks[i] = new Network(name, speed, latency, stability);
+        }
+
+        System.out.println("\n------------- NETWORK ANALYSIS -------------");
+
+        Network best = networks[0];
+
+        for (Network network : networks) {
+
+            double score = network.calculateScore();
+
+            System.out.printf(
+                "%-12s Speed: %6.2f Mbps | Latency: %5.2f ms | Stability: %6.2f%% | Score: %6.2f%n",
+                network.name,
+                network.speed,
+                network.latency,
+                network.stability,
+                score
+            );
+
+            if (score > best.calculateScore()) {
+                best = network;
+            }
+        }
+
+        System.out.println("---------------------------------------------");
+
+        System.out.println("\nBEST CONNECTION SELECTED");
+        System.out.println("Network   : " + best.name);
+        System.out.println("Speed     : " + best.speed + " Mbps");
+        System.out.println("Latency   : " + best.latency + " ms");
+        System.out.println("Stability : " + best.stability + "%");
+        System.out.printf("Score     : %.2f%n", best.calculateScore());
+
+        System.out.println("\n✓ Network connection optimized successfully!");
+    }
+}
